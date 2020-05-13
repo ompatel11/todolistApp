@@ -82,18 +82,38 @@ class _Add_taskState extends State<Add_task> {
                   child: Icon(Icons.timer,size: 40,),
                   onPressed: (){
                         selectTime(context);
-                      },                ),
+                      },                
+                    ),
               ],
             ),
-          ),   
-           Container(  
-                padding: const EdgeInsets.only(left: 150.0, top: 40.0),  
-                child: new FlatButton(  
-                  child: const Text('Set Task'),  
-                    onPressed: (){
-                      print("Set");
-                    },  
-                )),  
+          ),  
+          SizedBox(
+            height: 100.0,
+          ), 
+          Center(
+            child: Container(  
+                  child:  GestureDetector(
+                              onTap: () {                     
+                              },
+                              child: Container(
+                                width: 250.0,
+                                height: 40.0,
+                                decoration: BoxDecoration(
+                                  color: Colors.blueAccent,
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(20.0),
+                                  ),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    'Set Task',
+                                    style: GoogleFonts.roboto(
+                                        fontSize: 27.0, color: Colors.black45),
+                                  ),
+                                ),
+                              ),
+                            ),),
+          ),  
         ],  
       ),  
       ),
