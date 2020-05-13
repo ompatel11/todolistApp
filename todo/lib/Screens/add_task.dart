@@ -24,28 +24,38 @@ class _Add_taskState extends State<Add_task> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: Column(
-          children: [
-            Padding(
-              padding:  EdgeInsets.symmetric(vertical:MediaQuery.of(context).size.height * 0.1),
-              child: Row(
-                children: [
-                   IconButton(
+      appBar: AppBar(
+        leading: IconButton(
                       icon: FaIcon(FontAwesomeIcons.chevronCircleLeft,
-                      size: 54,
-                      color: Colors.black54,
+                      size: 35,
+                      color: Colors.cyanAccent
                    ),
                    onPressed: (){
                      Navigator.popAndPushNamed(context, '/home');
                    },
               color: Colors.black,
               ),
-                ],
-              ),
-            ),
+            title: Text("New Task",
+            style: GoogleFonts.roboto(
+              fontSize: 24,
+              fontWeight: FontWeight.normal,
+              color: Colors.cyanAccent
+            ),),
+        actions: [
+          IconButton(
+                icon: FaIcon(FontAwesomeIcons.check,
+                      size: 30,
+                      color: Colors.cyanAccent
+                   ),
+              )
+        ],
+      ),
+      body: Container(
+        child: Column(
+          children: [
+            
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal:8.0),
+              padding:  EdgeInsets.symmetric(horizontal:8.0,vertical: MediaQuery.of(context).size.height * 0.05),
               child: Form(  
       key: _formKey,  
       child: Column(  
@@ -53,7 +63,7 @@ class _Add_taskState extends State<Add_task> {
         children: <Widget>[  
           TextFormField(  
               decoration: const InputDecoration(  
-                icon: const Icon(Icons.person),  
+                icon: const Icon(Icons.text_fields),  
                 hintText: 'Task',  
                 labelText: 'Title',  
               ),  
@@ -90,30 +100,7 @@ class _Add_taskState extends State<Add_task> {
           SizedBox(
             height: 100.0,
           ), 
-          Center(
-            child: Container(  
-                  child:  GestureDetector(
-                              onTap: () {                     
-                              },
-                              child: Container(
-                                width: 250.0,
-                                height: 40.0,
-                                decoration: BoxDecoration(
-                                  color: Colors.blueAccent,
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(20.0),
-                                  ),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    'Set Task',
-                                    style: GoogleFonts.roboto(
-                                        fontSize: 27.0, color: Colors.black45),
-                                  ),
-                                ),
-                              ),
-                            ),),
-          ),  
+          
         ],  
       ),  
       ),

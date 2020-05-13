@@ -13,7 +13,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-    themeMode: ThemeMode.dark,
+    theme: ThemeData.dark(),
     debugShowCheckedModeBanner: false,
     home: DefaultScreen(),
     routes: {

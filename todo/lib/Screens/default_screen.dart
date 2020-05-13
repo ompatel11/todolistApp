@@ -12,11 +12,11 @@ class _DefaultScreenState extends State<DefaultScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.yellowAccent,
+          backgroundColor: Colors.black54,
           title: Text("ToDo List",
           style: GoogleFonts.roboto(
-            color: Colors.black87,
-            fontSize: 24,
+            color: Colors.cyanAccent,
+            fontSize: 34,
             fontWeight: FontWeight.bold,
           ),),
           iconTheme: IconThemeData(
@@ -24,7 +24,7 @@ class _DefaultScreenState extends State<DefaultScreen> {
           ),
           actions: [
             IconButton(
-            icon: Icon(Icons.add,size: 40),
+            icon: Icon(Icons.add,size: 40,color: Colors.cyanAccent,),
             onPressed: () {
               Navigator.popAndPushNamed(context, '/new_task');
             },
@@ -32,7 +32,7 @@ class _DefaultScreenState extends State<DefaultScreen> {
           ],
         ),
         floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.yellowAccent,
+          backgroundColor: Colors.cyanAccent,
           child: Icon(Icons.clear_all,size: 30,color: Colors.black87,),
           onPressed: null),
         // body: Container(
