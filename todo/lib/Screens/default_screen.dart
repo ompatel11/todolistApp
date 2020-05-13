@@ -15,7 +15,7 @@ class _DefaultScreenState extends State<DefaultScreen> {
           backgroundColor: Colors.black54,
           title: Text("ToDo List",
           style: GoogleFonts.roboto(
-            color: Colors.cyanAccent,
+            color: Colors.cyanAccent[100],
             fontSize: 34,
             fontWeight: FontWeight.bold,
           ),),
@@ -24,7 +24,7 @@ class _DefaultScreenState extends State<DefaultScreen> {
           ),
           actions: [
             IconButton(
-            icon: Icon(Icons.add,size: 40,color: Colors.cyanAccent,),
+            icon: Icon(Icons.add,size: 40,color: Colors.cyanAccent[100],),
             onPressed: () {
               Navigator.popAndPushNamed(context, '/new_task');
             },
@@ -32,7 +32,7 @@ class _DefaultScreenState extends State<DefaultScreen> {
           ],
         ),
         floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.cyanAccent,
+          backgroundColor: Colors.cyanAccent[100],
           child: Icon(Icons.clear_all,size: 30,color: Colors.black87,),
           onPressed: null),
         // body: Container(

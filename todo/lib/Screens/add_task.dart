@@ -26,9 +26,9 @@ class _Add_taskState extends State<Add_task> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-                      icon: FaIcon(FontAwesomeIcons.chevronCircleLeft,
+                      icon: FaIcon(FontAwesomeIcons.chevronLeft,
                       size: 35,
-                      color: Colors.cyanAccent
+                      color: Colors.cyanAccent[100]
                    ),
                    onPressed: (){
                      Navigator.popAndPushNamed(context, '/home');
@@ -39,13 +39,13 @@ class _Add_taskState extends State<Add_task> {
             style: GoogleFonts.roboto(
               fontSize: 24,
               fontWeight: FontWeight.normal,
-              color: Colors.cyanAccent
+              color: Colors.cyanAccent[100]
             ),),
         actions: [
           IconButton(
                 icon: FaIcon(FontAwesomeIcons.check,
                       size: 30,
-                      color: Colors.cyanAccent
+                      color: Colors.cyanAccent[100]
                    ),
               )
         ],
