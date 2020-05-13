@@ -1,0 +1,106 @@
+import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+class Add_task extends StatefulWidget {
+  @override
+  _Add_taskState createState() => _Add_taskState();
+}
+
+class _Add_taskState extends State<Add_task> {
+  final _formKey = GlobalKey<FormState>();
+  TimeOfDay _time = TimeOfDay.now();
+  TimeOfDay picked;
+  Future<Null> selectTime(BuildContext context) async{
+    picked = await showTimePicker(
+      context: context,
+      initialTime: _time
+      );
+      setState(() {
+        _time = picked;
+        print(_time);
+      });
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        child: Column(
+          children: [
+            Padding(
+              padding:  EdgeInsets.symmetric(vertical:MediaQuery.of(context).size.height * 0.1),
+              child: Row(
+                children: [
+                   IconButton(
+                      icon: FaIcon(FontAwesomeIcons.chevronCircleLeft,
+                      size: 54,
+                      color: Colors.black54,
+                   ),
+                   onPressed: (){
+                     Navigator.popAndPushNamed(context, '/home');
+                   },
+              color: Colors.black,
+              ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal:8.0),
+              child: Form(  
+      key: _formKey,  
+      child: Column(  
+        crossAxisAlignment: CrossAxisAlignment.start,  
+        children: <Widget>[  
+          TextFormField(  
+              decoration: const InputDecoration(  
+                icon: const Icon(Icons.person),  
+                hintText: 'Task',  
+                labelText: 'Title',  
+              ),  
+          ),  
+          SizedBox(
+              height: 20.0,
+          ),
+          Row(
+              children: [
+                Text("Select Time:",
+                style: GoogleFonts.roboto(
+                  fontSize: 24,
+                ),),
+                
+              ],
+          ), 
+          Padding(
+            padding:  EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.01),
+            child: Row(
+              children: [
+                Text( picked.toString(),
+                  style: GoogleFonts.roboto(
+                    fontSize: 23,
+                  ),),
+                  FlatButton(
+                  child: Icon(Icons.timer,size: 40,),
+                  onPressed: (){
+                        selectTime(context);
+                      },                ),
+              ],
+            ),
+          ),   
+           Container(  
+                padding: const EdgeInsets.only(left: 150.0, top: 40.0),  
+                child: new FlatButton(  
+                  child: const Text('Set Task'),  
+                    onPressed: (){
+                      print("Set");
+                    },  
+                )),  
+        ],  
+      ),  
+      ),
+            )
+          ],
+        ),
+      )
+    );
+  }
+}
