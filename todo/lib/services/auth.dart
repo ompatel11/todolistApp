@@ -50,8 +50,7 @@ class AuthService{
 
       // create a new document for the user with the uid
 
-      await DatabaseService(uid: user.uid).addUserData('H.W.','new crew member');
-
+      await DatabaseService(uid: user.uid).addUserData('Title of Task','Time of task');
       return _userFromFirebaseUser(user);
 
     } catch (error) {
