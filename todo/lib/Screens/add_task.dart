@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:todo/services/auth.dart';
+import 'package:todo/services/database.dart';
 class Add_task extends StatefulWidget {
   @override
   _Add_taskState createState() => _Add_taskState();
@@ -9,6 +11,7 @@ class Add_task extends StatefulWidget {
 
 class _Add_taskState extends State<Add_task> {
   final _formKey = GlobalKey<FormState>();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   TimeOfDay _time = TimeOfDay.now();
   TimeOfDay picked;
   Future<Null> selectTime(BuildContext context) async{
@@ -20,6 +23,15 @@ class _Add_taskState extends State<Add_task> {
         _time = picked;
         print(_time);
       });
+  }
+  Future<Null>add_newtask() async {
+    final FirebaseUser user = await _auth.currentUser();
+    try{
+    DatabaseService(uid: user.uid).addTask('Title of Task 2','Time of task 2 ');
+    print('Done');
+    }catch(e){
+      print(e.toString());
+    }
   }
   @override
   Widget build(BuildContext context) {
@@ -47,6 +59,9 @@ class _Add_taskState extends State<Add_task> {
                       size: 30,
                       color: Colors.cyanAccent[100]
                    ),
+                   onPressed: (){
+                     add_newtask();
+                   },
               )
         ],
       ),
