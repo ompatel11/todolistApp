@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:todo/models/user.dart';
+import 'package:todo/services/database.dart';
 
 class AuthService{
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -17,6 +18,8 @@ class AuthService{
     try {
       AuthResult result = await _auth.signInAnonymously();
       FirebaseUser user = result.user;
+
+      await DatabaseService(uid: user.uid).updateUserData('Titile', '4:00 p.m.');
       return _userFromFirebaseUser(user);
     } catch(e){
       print(e.toString());

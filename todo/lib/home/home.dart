@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'dart:async';
-import 'package:todo/entities/notes.dart';
 import 'package:todo/services/auth.dart';
 
 class DefaultScreen extends StatefulWidget {
