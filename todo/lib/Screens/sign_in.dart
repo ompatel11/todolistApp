@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:todo/Screens/contants/loading.dart';
 import 'package:todo/services/auth.dart';
-class SignIn extends StatefulWidget {
+import 'package:google_fonts/google_fonts.dart';
+
+class Register extends StatefulWidget {
   @override
-  _SignInState createState() => _SignInState();
+  _RegisterState createState() => _RegisterState();
 }
 
-class _SignInState extends State<SignIn> {
+class _RegisterState extends State<Register> {
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
   String error = '';
@@ -15,35 +17,32 @@ class _SignInState extends State<SignIn> {
   // text field state
   String email = '';
   String password = '';
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return loading ? Loading() : Scaffold(
       appBar: AppBar(
-          backgroundColor: Colors.cyanAccent[400],
-          title: Text("Sign In",
+        backgroundColor: Colors.cyanAccent[400],
+        elevation: 0.0,
+        title: Text("Register",
           style: GoogleFonts.roboto(
             fontSize: 34,
             fontWeight: FontWeight.bold,
           ),),
-          iconTheme: IconThemeData(
-            color: Colors.black
-          ),
         actions: <Widget>[
           FlatButton.icon(
-            icon: Icon(Icons.person,size:25),
-            label: Text('Register',
+            icon: Icon(Icons.person,size: 25),
+            label: Text('Sign In',
             style: GoogleFonts.roboto(
-              fontSize: 18,
-              color: Colors.white
-            ),),
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),),
             onPressed: (){
-              Navigator.popAndPushNamed(context, '/register');
+              Navigator.popAndPushNamed(context, '/login');
             },
           ),
-        ], 
-        ),
-        body: Container(
+        ],
+      ),
+      body: Container(
         padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
         child: Form(
           key: _formKey,
@@ -66,17 +65,18 @@ class _SignInState extends State<SignIn> {
               ),
               SizedBox(height: 20.0),
               RaisedButton(
-                color: Colors.pink[400],
+                color: Colors.cyanAccent[400],
                 child: Text(
-                  'Sign In',
-                  style: TextStyle(color: Colors.white),
+                  'Register',
+                  style: GoogleFonts.roboto(
+                    fontSize: 20,
+                    color: Colors.white,
+                  )
                 ),
                 onPressed: () async {
                   if(_formKey.currentState.validate()){
                     setState(() => loading = true);
-                    dynamic result = await _auth.signInWithEmailAndPassword(email, password);
-                    Navigator.popAndPushNamed(context, '/home');
-                    print(_auth.user);
+                    dynamic result = await _auth.registerWithEmailAndPassword(email, password);
                     if(result == null) {
                       setState(() {
                         loading = false;

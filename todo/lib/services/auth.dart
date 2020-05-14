@@ -14,20 +14,56 @@ class AuthService{
     return _auth.onAuthStateChanged.map((FirebaseUser user)=> _userFromFirebaseUser(user));
   }
   //sign in anon
-  Future signInAnon() async {
-    try {
-      AuthResult result = await _auth.signInAnonymously();
-      FirebaseUser user = result.user;
+  // Future signInAnon() async {
+  //   try {
+  //     AuthResult result = await _auth.signInAnonymously();
+  //     FirebaseUser user = result.user;
 
-      await DatabaseService(uid: user.uid).updateUserData('Titile', '4:00 p.m.');
+  //     await DatabaseService(uid: user.uid).addUserData('Titile', '4:00 p.m.');
+  //     return _userFromFirebaseUser(user);
+  //   } catch(e){
+  //     print(e.toString());
+  //     return null;
+  //   }
+  // }
+  
+  //sign in with e-mail and password
+  Future signInWithEmailAndPassword(String email,String password) async {
+    try{  
+      AuthResult result = await _auth.signInWithEmailAndPassword(email: email, password: password);
+      FirebaseUser user = result.user;
       return _userFromFirebaseUser(user);
+
     } catch(e){
       print(e.toString());
       return null;
     }
   }
-  //sign in with e-mail and password
+  // Register with Email and Password
+  Future registerWithEmailAndPassword(String email, String password) async {
 
+    try {
+
+      AuthResult result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+
+      FirebaseUser user = result.user;
+
+      // create a new document for the user with the uid
+
+      await DatabaseService(uid: user.uid).addUserData('H.W.','new crew member');
+
+      return _userFromFirebaseUser(user);
+
+    } catch (error) {
+
+      print(error.toString());
+
+      return null;
+
+    } 
+
+  }
+  //sign out
   Future signOut() async{
     try{
       return await _auth.signOut();

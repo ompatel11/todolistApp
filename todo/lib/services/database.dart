@@ -5,11 +5,10 @@ class DatabaseService {
   DatabaseService({this.uid});
 
   final CollectionReference taskCollection = Firestore.instance.collection('user');
-    
-  Future updateUserData(String title,String time) async{
-    return await taskCollection.document(uid).setData({
+  Future addUserData(String title,String time) async{
+    return await Firestore.instance.collection('user').add({
       'title': title,
-      'time': time
+      'time': time,
     });
   }
 }

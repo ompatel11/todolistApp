@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo/Screens/add_task.dart';
+import 'package:todo/Screens/login.dart';
+import 'package:todo/Screens/sign_in.dart';
 import 'package:todo/home/home.dart';
 import 'package:todo/services/auth.dart';
 import 'app.dart';
@@ -20,6 +22,8 @@ class MyApp extends StatelessWidget {
           theme: ThemeData.dark(),
           routes: {
             '/new_task': (context) => Add_task(),
+            '/login': (context) => SignIn(),
+            '/register': (context) => Register(),
             '/home':(context) => DefaultScreen(),
           },
         debugShowCheckedModeBanner: false,
