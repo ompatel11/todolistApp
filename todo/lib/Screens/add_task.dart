@@ -14,6 +14,7 @@ class _Add_taskState extends State<Add_task> {
   bool timer = false;
   TimeOfDay _time = TimeOfDay.now();
   TimeOfDay picked;
+  String title;
   Future<Null> selectTime(BuildContext context) async{
     picked = await showTimePicker(
       context: context,
@@ -82,7 +83,10 @@ class _Add_taskState extends State<Add_task> {
                    ),
                    onPressed: () async{
                      final uid = (await _auth.currentUser()).uid;
-                     await DatabaseService(uid: uid).addTask("title", "time");
+                     print('In progress');
+                     await DatabaseService(uid: uid).addTask(title, picked.toString());
+                     Navigator.of(context).popAndPushNamed('/home');
+                     print("Done");
                    },
               )
             ],
@@ -99,6 +103,10 @@ class _Add_taskState extends State<Add_task> {
         crossAxisAlignment: CrossAxisAlignment.start,  
         children: <Widget>[  
           TextFormField(  
+            onChanged: (val) {
+                  setState(() => title = val);
+                },
+            validator: (val) => val.isEmpty ? 'Cannot leave this empty' : null,
               decoration: const InputDecoration(  
                 hintText: 'Task',  
                 labelText: 'Title',  

@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:todo/Screens/contants/loading.dart';
 import 'package:todo/services/auth.dart';
+import 'package:todo/services/database.dart';
 
 class DefaultScreen extends StatefulWidget {
   @override
@@ -15,7 +17,7 @@ class _DefaultScreenState extends State<DefaultScreen> {
   
   Stream<QuerySnapshot> getUserTasks(BuildContext context) async*{
     final uid = (await FirebaseAuth.instance.currentUser()).uid;
-    yield* Firestore.instance.collection("users").document(uid).collection("title").snapshots();
+    yield* Firestore.instance.collection("users").document(uid).collection("tasks").snapshots();
   }
   @override
   Widget build(BuildContext context) {
@@ -60,7 +62,7 @@ class _DefaultScreenState extends State<DefaultScreen> {
               return ListView.builder(
                 itemCount: snapshot.data.documents.length,
                 itemBuilder: (BuildContext context,index) =>
-                   buildTripCard(context, snapshot.data.documents[index])
+                   buildTaskCard(context, snapshot.data.documents[index])
               );
               
             },
@@ -72,7 +74,7 @@ class _DefaultScreenState extends State<DefaultScreen> {
 }
 
 
- Widget buildTripCard(BuildContext context, DocumentSnapshot trip) {
+ Widget buildTaskCard(BuildContext context, DocumentSnapshot task) {
     return new Container(
       child: Card(
         child: Padding(
@@ -82,7 +84,7 @@ class _DefaultScreenState extends State<DefaultScreen> {
               Padding(
                 padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
                 child: Row(children: <Widget>[
-                  Text(trip['title'], style: new TextStyle(fontSize: 30.0),),
+                  Text(task['title']==null? "N/A":task['title'], style: new TextStyle(fontSize: 30.0),),
                   Spacer(),
                 ]),
               ),
@@ -90,9 +92,16 @@ class _DefaultScreenState extends State<DefaultScreen> {
                 padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
                 child: Row(
                   children: <Widget>[
-                    Text(trip['time'], style: new TextStyle(fontSize: 35.0),),
+                    Text(task['time'], style: new TextStyle(fontSize: 35.0),),
                     Spacer(),
-                    Icon(Icons.directions_car),
+                    IconButton(icon:FaIcon(FontAwesomeIcons.trash),
+                    onPressed: () async{
+                      final FirebaseAuth _auth = FirebaseAuth.instance;
+                      final uid = (await _auth.currentUser()).uid;
+                     print('In progress');
+                     await DatabaseService(uid: uid).deleteTask(task['title']);
+                     print("Done");
+                    },),
                   ],
                 ),
               )

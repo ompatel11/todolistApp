@@ -17,7 +17,12 @@ class DatabaseService {
       'title': title,
       'time': time,
   };
-    return await Firestore.instance.collection("users").document(uid).collection(title).document(title).setData(data);
-
+    return await Firestore.instance.collection("users").document(uid).collection("tasks").document(title).setData(data);
+  }
+  Future deleteTask(String title) async{
+    Map<String,String> data = <String,String>{
+      'title': title,
+    };
+    return await Firestore.instance.collection("users").document(uid).collection("tasks").document(title).delete();
   }
 }
