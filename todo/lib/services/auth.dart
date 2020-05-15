@@ -1,10 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:todo/models/user.dart';
 import 'package:todo/services/database.dart';
-
 class AuthService{
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
+  //GET UID
+  Future<String> getCurrentUid() async{
+    String uid = (await _auth.currentUser()).uid;
+    return uid;
+  }
   //create user object based on firebase user
   User _userFromFirebaseUser(FirebaseUser user){
     return user != null? User(uid:user.uid) : null;

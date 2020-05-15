@@ -2,7 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:todo/services/auth.dart';
+import 'package:todo/provider/provider.dart';
 import 'package:todo/services/database.dart';
 class Add_task extends StatefulWidget {
   @override
@@ -59,8 +61,9 @@ class _Add_taskState extends State<Add_task> {
                       size: 30,
                       color: Colors.cyanAccent[100]
                    ),
-                   onPressed: (){
-                     add_newtask();
+                   onPressed: () async{
+                     final uid = (await _auth.currentUser()).uid;
+                     await DatabaseService(uid: uid).addTask("title", "time");
                    },
               )
         ],

@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:todo/Screens/contants/loading.dart';
 import 'package:todo/services/auth.dart';
 
 class DefaultScreen extends StatefulWidget {
@@ -8,7 +11,12 @@ class DefaultScreen extends StatefulWidget {
 }
 
 class _DefaultScreenState extends State<DefaultScreen> {
-  final AuthService _auth = AuthService();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  
+  Stream<QuerySnapshot> getUserTasks(BuildContext context) async*{
+    final uid = (await FirebaseAuth.instance.currentUser()).uid;
+    yield* Firestore.instance.collection("users").document(uid).collection("title").snapshots();
+  }
   @override
   Widget build(BuildContext context) {
     
@@ -41,20 +49,55 @@ class _DefaultScreenState extends State<DefaultScreen> {
           backgroundColor: Colors.cyanAccent[100],
           child: Icon(Icons.clear_all,size: 30,color: Colors.black87,),
           onPressed: null),
-        body: ListView.builder(
-          itemCount: 2,
-          itemBuilder: (context, index){
-            return Card(
-            child: Column(
-              children: [
-                Text("_notes[index].title"),
-                Text("_notes[index].task_time.toString()")
-              ],
-            ),
-          );
-          }
-        ),
+        body: Container(
+          child: StreamBuilder(
+            stream: getUserTasks(context),
+            builder: (context, snapshot){
+              if(!snapshot.hasData){
+                return Center(child: Text("No Tasks Found"),);
+              }
+              return ListView.builder(
+                itemCount: snapshot.data.documents.length,
+                itemBuilder: (BuildContext context,index) =>
+                   buildTripCard(context, snapshot.data.documents[index])
+              );
+              
+            },
+          )
+        )
       );
    
   }
 }
+
+
+ Widget buildTripCard(BuildContext context, DocumentSnapshot trip) {
+    return new Container(
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
+                child: Row(children: <Widget>[
+                  Text(trip['title'], style: new TextStyle(fontSize: 30.0),),
+                  Spacer(),
+                ]),
+              ),
+             Padding(
+                padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                child: Row(
+                  children: <Widget>[
+                    Text(trip['time'], style: new TextStyle(fontSize: 35.0),),
+                    Spacer(),
+                    Icon(Icons.directions_car),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }

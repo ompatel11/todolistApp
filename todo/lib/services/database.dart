@@ -10,7 +10,7 @@ class DatabaseService {
       'title': title,
       'time': time,
   };
-    return await Firestore.instance.collection("users").document(uid).collection('task').document(title).setData(data);
+    return await Firestore.instance.collection("users").document(uid).collection('task').add(data);
   }
   Future addTask(String title, String time) async{
     Map<String, String> data = <String, String>{
