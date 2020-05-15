@@ -36,6 +36,7 @@ class _DefaultScreenState extends State<DefaultScreen> {
             IconButton(icon:Icon(Icons.power_settings_new,size:30,color: Colors.cyanAccent[100]), 
             onPressed: () async {
               await _auth.signOut();
+              Navigator.of(context).popAndPushNamed('/login');
             }),
             IconButton(
             icon: Icon(Icons.add,size: 40,color: Colors.cyanAccent[100],),

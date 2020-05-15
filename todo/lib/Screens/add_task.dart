@@ -2,9 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
-import 'package:todo/services/auth.dart';
-import 'package:todo/provider/provider.dart';
 import 'package:todo/services/database.dart';
 class Add_task extends StatefulWidget {
   @override
@@ -14,6 +11,7 @@ class Add_task extends StatefulWidget {
 class _Add_taskState extends State<Add_task> {
   final _formKey = GlobalKey<FormState>();
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  bool timer = false;
   TimeOfDay _time = TimeOfDay.now();
   TimeOfDay picked;
   Future<Null> selectTime(BuildContext context) async{
@@ -24,17 +22,21 @@ class _Add_taskState extends State<Add_task> {
       setState(() {
         _time = picked;
         print(_time);
+        // if (_time == null){
+        //   timer=false;
+          
+        // }
       });
   }
-  Future<Null>add_newtask() async {
-    final FirebaseUser user = await _auth.currentUser();
-    try{
-    DatabaseService(uid: user.uid).addTask('Title of Task 2','Time of task 2 ');
-    print('Done');
-    }catch(e){
-      print(e.toString());
-    }
-  }
+  // Future<Null>add_newtask() async {
+  //   final FirebaseUser user = await _auth.currentUser();
+  //   try{
+  //   DatabaseService(uid: user.uid).addTask('Title of Task 2','Time of task 2 ');
+  //   print('Done');
+  //   }catch(e){
+  //     print(e.toString());
+  //   }
+  // }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,6 +59,23 @@ class _Add_taskState extends State<Add_task> {
             ),),
         actions: [
           IconButton(
+            icon: FaIcon(timer?  FontAwesomeIcons.bell:FontAwesomeIcons.bellSlash),
+            color: timer?Colors.cyanAccent[100]: Colors.white,
+            onPressed: () {
+              setState(() {
+                if (timer== false){
+                  selectTime(context);
+                  return timer=true;
+                }
+                else{
+                  return timer= false;
+                }
+              });
+            }
+          ), 
+                    
+                              
+          IconButton(
                 icon: FaIcon(FontAwesomeIcons.check,
                       size: 30,
                       color: Colors.cyanAccent[100]
@@ -66,7 +85,7 @@ class _Add_taskState extends State<Add_task> {
                      await DatabaseService(uid: uid).addTask("title", "time");
                    },
               )
-        ],
+            ],
       ),
       body: Container(
         child: Column(
@@ -81,7 +100,6 @@ class _Add_taskState extends State<Add_task> {
         children: <Widget>[  
           TextFormField(  
               decoration: const InputDecoration(  
-                icon: const Icon(Icons.text_fields),  
                 hintText: 'Task',  
                 labelText: 'Title',  
               ),  
@@ -89,32 +107,7 @@ class _Add_taskState extends State<Add_task> {
           SizedBox(
               height: 20.0,
           ),
-          Row(
-              children: [
-                Text("Select Time:",
-                style: GoogleFonts.roboto(
-                  fontSize: 24,
-                ),),
-                
-              ],
-          ), 
-          Padding(
-            padding:  EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.01),
-            child: Row(
-              children: [
-                Text( picked.toString(),
-                  style: GoogleFonts.roboto(
-                    fontSize: 23,
-                  ),),
-                  FlatButton(
-                  child: Icon(Icons.timer,size: 40,),
-                  onPressed: (){
-                        selectTime(context);
-                      },                
-                    ),
-              ],
-            ),
-          ),  
+          
           SizedBox(
             height: 100.0,
           ), 
