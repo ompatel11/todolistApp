@@ -92,7 +92,7 @@ class _DefaultScreenState extends State<DefaultScreen> {
                 padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
                 child: Row(
                   children: <Widget>[
-                    Text(task['time'], style: new TextStyle(fontSize: 35.0),),
+                    Text(task['time'].toString()==null? " ":task['time'], style: new TextStyle(fontSize: 35.0),),
                     Spacer(),
                     IconButton(icon:FaIcon(FontAwesomeIcons.trash),
                     onPressed: () async{

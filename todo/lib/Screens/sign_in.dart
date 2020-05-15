@@ -20,35 +20,47 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return loading ? Loading() : Scaffold(
-      resizeToAvoidBottomPadding: false,
-      appBar: AppBar(
-        backgroundColor: Colors.cyanAccent[400],
-        elevation: 0.0,
-        title: Text("Register",
-          style: GoogleFonts.roboto(
-            fontSize: 34,
-            fontWeight: FontWeight.bold,
-          ),),
-        actions: <Widget>[
-          FlatButton.icon(
-            icon: Icon(Icons.person,size: 25),
-            label: Text('Sign In',
-            style: GoogleFonts.roboto(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),),
-            onPressed: (){
-              Navigator.popAndPushNamed(context, '/login');
-            },
-          ),
-        ],
-      ),
-      body: Container(
-        padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.1, horizontal: 50.0),
+      resizeToAvoidBottomPadding: false,      
+      body: Stack(
+        children: [
+          Align(
+            alignment: Alignment.topLeft,
+            child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(bottomLeft: Radius.circular(40),bottomRight: Radius.circular(40)),
+                  color: Colors.cyanAccent[400],
+                ),
+                height: MediaQuery.of(context).size.height * 0.45,
+                
+              ),
+            ),
+          Align(
+            alignment: Alignment.center,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Container(
+                height: MediaQuery.of(context).size.height * 0.6,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                    color: Color(0xff202020),
+                  ),
+                  child:Container(
+        padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.03, horizontal: 50.0),
         child: Form(
           key: _formKey,
           child: Column(
             children: <Widget>[
+              Text(
+                  'Register',
+                  style: GoogleFonts.galada(
+                      color: Colors.cyanAccent,
+                      fontSize: 40.0,
+                      letterSpacing: 4.0,
+                      fontWeight: FontWeight.w400),
+                  ),
+                  SizedBox(
+                    height: 30.0,
+                  ),
               TextFormField(
                   style: TextStyle(
                   fontSize: 20.0, color: Colors.cyanAccent[100]),
@@ -69,7 +81,7 @@ class _RegisterState extends State<Register> {
                          ),
               )
               ),
-              SizedBox(height: 20.0),
+              SizedBox(height: 30.0),
               TextFormField(
                   obscureText: true,
                   style: TextStyle(
@@ -89,17 +101,9 @@ class _RegisterState extends State<Register> {
                       color: Colors.cyanAccent[100],
                       letterSpacing: 4.0),
               )),
-              SizedBox(height: 20.0),
-              RaisedButton(
-                color: Colors.cyanAccent[400],
-                child: Text(
-                  'Register',
-                  style: GoogleFonts.roboto(
-                    fontSize: 20,
-                    color: Colors.white,
-                  )
-                ),
-                onPressed: () async {
+              SizedBox(height: 30.0),
+              GestureDetector(
+                onTap:() async {
                   if(_formKey.currentState.validate()){
                     setState(() => loading = true);
                     dynamic result = await _auth.registerWithEmailAndPassword(email, password);
@@ -110,17 +114,48 @@ class _RegisterState extends State<Register> {
                       });
                     }
                   }
-                }
-              ),
-              SizedBox(height: 12.0),
-              Text(
-                error,
-                style: TextStyle(color: Colors.red, fontSize: 14.0),
-              ),
+                } ,
+                            child: Container(
+                              width: 150.0,
+                              height: 40.0,
+                              decoration: BoxDecoration(
+                                color: Colors.cyanAccent[400],
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(30.0),
+                                ),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  'Register',
+                                  style: GoogleFonts.roboto(
+                                      fontSize: 27.0, color: Colors.black45),
+                                ),
+                              ),
+                            ),
+                          ),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.06),
+                
+                GestureDetector(
+                  onTap: (){
+                    Navigator.popAndPushNamed(context, '/login');
+                    },
+                    child: Text(
+                    "Already have an account?",
+                    style: GoogleFonts.roboto(
+                      fontSize: 20,
+                      color: Colors.cyanAccent
+                    ),
+                  ),
+                )
             ],
           ),
         ),
       ),
+              )
+            ),
+          )
+        ],
+      )
     );
   }
 }

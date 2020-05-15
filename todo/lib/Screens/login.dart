@@ -19,112 +19,150 @@ class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          backgroundColor: Colors.cyanAccent[400],
-          title: Text("Sign In",
-          style: GoogleFonts.roboto(
-            fontSize: 34,
-            fontWeight: FontWeight.bold,
-          ),),
-          iconTheme: IconThemeData(
-            color: Colors.black
-          ),
-        actions: <Widget>[
-          FlatButton.icon(
-            icon: Icon(Icons.person,size:25),
-            label: Text('Register',
-            style: GoogleFonts.roboto(
-              fontSize: 18,
-              color: Colors.white
-            ),),
-            onPressed: (){
-              Navigator.popAndPushNamed(context, '/register');
-            },
-          ),
-        ], 
-        ),
-        body: Container(
-        padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.1, horizontal: 50.0),
+        body: Stack(
+          children: [
+            Align(
+              alignment: Alignment.topLeft,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(bottomLeft: Radius.circular(40),bottomRight: Radius.circular(40)),
+                  color: Colors.cyanAccent[400],
+                ),
+                height: MediaQuery.of(context).size.height * 0.45,
+                
+              ),
+            ),
+            Align(
+              alignment: Alignment.center,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.6,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                    color: Color(0xff202020),
+                  ),
+                  child: Column(
+                    children: [
+                      Container(
+        padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.03, horizontal: 50.0),
         child: Form(
           key: _formKey,
           child: Column(
             children: <Widget>[
-              TextFormField(
-                decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                          borderRadius:BorderRadius.all(Radius.circular(20.0))),
-                          fillColor: Colors.black45,
-                          filled: true,
-                          hintText: 'E-mail',
-                          hintStyle: GoogleFonts.comfortaa(
-                          fontSize: 15.0,
-                          color: Colors.cyanAccent[100],
-                         letterSpacing: 4.0
-                         ),
-                ),
-                style: TextStyle(
-                  fontSize: 20.0, color: Colors.cyanAccent[100]),
-                validator: (val) => val.isEmpty ? 'Enter an email' : null,
-                onChanged: (val) {
-                  setState(() => email = val);
-                },
-              ),
-              SizedBox(height: 20.0),
-              
-              TextFormField(
-                style: TextStyle(
-                    fontSize: 20.0, color: Colors.cyanAccent[100]),
-                decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius:BorderRadius.all(Radius.circular(20.0))),
-                  fillColor: Colors.black45,
-                  filled: true,
-                  hintText: 'Password',
-                  hintStyle: GoogleFonts.comfortaa(
-                      fontSize: 15.0,
-                      color: Colors.cyanAccent[100],
-                      letterSpacing: 4.0),
-              ),
-                obscureText: true,
-                validator: (val) => val.length < 6 ? 'Enter a password 6+ chars long' : null,
-                onChanged: (val) {
-                  setState(() => password = val);
-                },
-              ),
-              SizedBox(height: 20.0),
-              RaisedButton(
-                color: Colors.cyanAccent[400],
-                child: Text(
+                Text(
                   'Sign In',
-                  style: GoogleFonts.roboto(
-                    fontSize: 20,
-                    color: Colors.white,
-                  )
+                  style: GoogleFonts.galada(
+                      color: Colors.cyanAccent,
+                      fontSize: 40.0,
+                      letterSpacing: 4.0,
+                      fontWeight: FontWeight.w400),
+                  ),
+                  SizedBox(
+                    height: 30.0,
+                  ),
+                TextFormField(
+                  decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius:BorderRadius.all(Radius.circular(20.0))),
+                            fillColor: Colors.black45,
+                            filled: true,
+                            hintText: 'E-mail',
+                            hintStyle: GoogleFonts.comfortaa(
+                            fontSize: 15.0,
+                            color: Colors.cyanAccent[100],
+                           letterSpacing: 4.0
+                           ),
+                  ),
+                  style: TextStyle(
+                    fontSize: 20.0, color: Colors.cyanAccent[100]),
+                  validator: (val) => val.isEmpty ? 'Enter an email' : null,
+                  onChanged: (val) {
+                    setState(() => email = val);
+                  },
                 ),
-                onPressed: () async {
-                  if(_formKey.currentState.validate()){
-                    setState(() => loading = true);
-                    dynamic result = await _auth.signInWithEmailAndPassword(email, password);
-                    Navigator.popAndPushNamed(context, '/home');
-                    print(_auth.user);
-                    if(result == null) {
-                      setState(() {
-                        loading = false;
-                        error = 'Could not sign in with those credentials';
-                      });
-                    }
-                  }
-                }
-              ),
-              SizedBox(height: 12.0),
-              Text(
-                error,
-                style: TextStyle(color: Colors.red, fontSize: 14.0),
-              ),
+                SizedBox(height: 40.0),
+                
+                TextFormField(
+                  style: TextStyle(
+                      fontSize: 20.0, color: Colors.cyanAccent[100]),
+                  decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius:BorderRadius.all(Radius.circular(20.0))),
+                    fillColor: Colors.black45,
+                    filled: true,
+                    hintText: 'Password',
+                    hintStyle: GoogleFonts.comfortaa(
+                        fontSize: 15.0,
+                        color: Colors.cyanAccent[100],
+                        letterSpacing: 4.0),
+                ),
+                  obscureText: true,
+                  validator: (val) => val.length < 6 ? 'Enter a password 6+ chars long' : null,
+                  onChanged: (val) {
+                    setState(() => password = val);
+                  },
+                ),
+                SizedBox(height: 40.0),
+                GestureDetector(
+                            onTap:  () async {
+                              if(_formKey.currentState.validate()){
+                                setState(() => loading = true);
+                                dynamic result = await _auth.signInWithEmailAndPassword(email, password);
+                                Navigator.popAndPushNamed(context, '/home');
+                                print(_auth.user);
+                                if(result == null) {
+                                  setState(() {
+                                    loading = false;
+                                    error = 'Could not sign in with those credentials. Please check your E-mail';
+                                  });
+                                }
+                              }
+                            },
+                            child: Container(
+                              width: 150.0,
+                              height: 40.0,
+                              decoration: BoxDecoration(
+                                color: Colors.cyanAccent[400],
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(30.0),
+                                ),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  'Sign In',
+                                  style: GoogleFonts.roboto(
+                                      fontSize: 27.0, color: Colors.black45),
+                                ),
+                              ),
+                            ),
+                          ),
+                
+                SizedBox(height: MediaQuery.of(context).size.height * 0.06),
+                
+                GestureDetector(
+                  onTap: (){
+                      Navigator.popAndPushNamed(context, '/register');
+                    },
+                    child: Text(
+                    "Don't have an account?",
+                    style: GoogleFonts.roboto(
+                      fontSize: 20,
+                      color: Colors.cyanAccent
+                    ),
+                  ),
+                )
             ],
           ),
-        ),
-      ),
-    );
+        )),
+                    ],
+                  ),
+                ),
+              ),
+            )
+          ],
+        )
+      );
+  
   }
 }
