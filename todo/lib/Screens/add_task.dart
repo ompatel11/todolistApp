@@ -16,7 +16,7 @@ class _Add_taskState extends State<Add_task> {
   TimeOfDay picked;
   String title;
   String descp;
-  String taskcolor= "0XFF76F1FF";
+  String taskcolor="0xff303030";
   final snackBar =  SnackBar(content: Text("Cannot leave title empty."));
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
@@ -57,6 +57,26 @@ class _Add_taskState extends State<Add_task> {
               color: Colors.white
             ),),
         actions: [
+          IconButton(icon: FaIcon(FontAwesomeIcons.palette),color: Colors.white, 
+           onPressed: () async {  
+                final BackColor colorName = await _asyncSimpleDialog(context);  
+                print("Selected BackColor is $colorName");
+                if (colorName== BackColor.D3D3D3){
+                  taskcolor = "0xffD3D3D3";
+                }
+                else if (colorName== BackColor.E97451){
+                  taskcolor = "0xffE97451";
+                }
+                else if (colorName == BackColor.ED76FF){
+                  taskcolor = "0xffED76FF";
+                }
+                else{
+                  taskcolor = "0xffFFF176";
+                }
+
+
+
+              }, ),
           IconButton(
             icon: FaIcon(timer?  FontAwesomeIcons.bell:FontAwesomeIcons.bellSlash),
             color: Colors.white,
@@ -176,4 +196,85 @@ class _Add_taskState extends State<Add_task> {
     );
   }
 }
+
+enum BackColor { D3D3D3 , ED76FF, FFF176, E97451 }  
+  
+Future<BackColor> _asyncSimpleDialog(BuildContext context) async {  
+  return await showDialog<BackColor>(  
+      context: context,  
+      barrierDismissible: true,  
+      builder: (BuildContext context) {  
+        return SimpleDialog(  
+          title: const Text('Select Color '),  
+          children: <Widget>[  
+            SimpleDialogOption(  
+              onPressed: () {  
+                Navigator.pop(context, BackColor.D3D3D3);  
+              },  
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('D3D3D3'),
+                  Container(
+                    width: 35,
+                    height: 15,
+                    color: Colors.grey[350],
+                  )
+                ],
+              ),  
+            ), 
+            SimpleDialogOption(  
+              onPressed: () {  
+                Navigator.pop(context, BackColor.FFF176);  
+              },  
+              child:  Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Yellow'),
+                  Container(
+                    width: 35,
+                    height: 15,
+                    color: Colors.yellow[400],
+                  )
+                ],
+              ),  
+            ), 
+             
+            SimpleDialogOption(  
+              onPressed: () {  
+                Navigator.pop(context, BackColor.ED76FF);  
+              },  
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Purple'),
+                  Container(
+                    width: 35,
+                    height: 15,
+                    color: Color(0xffED76FF),
+                  )
+                ],
+              ),  
+            ), 
+            SimpleDialogOption(  
+              onPressed: () {  
+                Navigator.pop(context, BackColor.E97451);  
+              },  
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Red'),
+                  Container(
+                    height: 15,
+                    width: 35,
+                    color: Color(0xffE97451),
+                  )
+                ],
+              ),  
+            ), 
+          ],  
+        );  
+      });  
+}  
+
 

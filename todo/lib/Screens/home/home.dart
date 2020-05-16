@@ -87,7 +87,7 @@ class _DefaultScreenState extends State<DefaultScreen> {
  Widget buildTaskCard(BuildContext context, DocumentSnapshot task) {
     return new Container(
       child: Card(
-        color:  Color(int.parse(task['taskcolor'])),
+        color: task['taskcolor']==null?Colors.blueAccent: Color(int.parse(task['taskcolor'])),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
