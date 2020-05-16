@@ -22,7 +22,7 @@ class DatabaseService {
   }
   Future deleteTask(String title) async{
     
-    return await Firestore.instance.collection("users").document(uid).delete();
+    return await Firestore.instance.collection("users").document(uid).collection("tasks").document(title).delete();
   }
   Future deleteAllTasks() async{
     await Firestore.instance.collection("users").document(uid).collection("tasks").getDocuments().then((snapshot) {

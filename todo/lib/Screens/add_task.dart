@@ -37,7 +37,7 @@ class _Add_taskState extends State<Add_task> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         leading: IconButton(
                       icon: FaIcon(FontAwesomeIcons.chevronLeft,

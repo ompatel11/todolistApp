@@ -48,6 +48,7 @@ class _DefaultScreenState extends State<DefaultScreen> {
           ],
         ),
         floatingActionButton: FloatingActionButton(
+          tooltip: "Clear All",
           backgroundColor: Colors.cyanAccent[100],
           child: Icon(Icons.clear_all,size: 30,color: Colors.black87,),
           onPressed: () async {
@@ -89,27 +90,27 @@ class _DefaultScreenState extends State<DefaultScreen> {
           child: Column(
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
+                padding: const EdgeInsets.only(top: 8.0),
                 child: Row(children: <Widget>[
-Text(task['title']==null? "N/A":task['title'], style: new TextStyle(fontSize: 28.0),),
-                  Spacer(),
+                  Text(task['title']==null? "N/A":task['title'], style: new TextStyle(fontSize: 28.0),),
                 ]),
               ),
              Padding(
                 padding: const EdgeInsets.only(top: 8.0),
-                child: Row(
-                  children: <Widget>[
-                    Text(task['descp'], style: new TextStyle(fontSize: 20.0),),
-                    Spacer(),
-                    IconButton(icon:FaIcon(FontAwesomeIcons.trash),
-                    onPressed: () async{
-                      final FirebaseAuth _auth = FirebaseAuth.instance;
-                      final uid = (await _auth.currentUser()).uid;
-                     print('In progress');
-                     await DatabaseService(uid: uid).deleteTask(task['title']);
-                     print("Done");
-                    },),
-                  ],
+                child: Container(
+                  child: Row(
+                    children: <Widget>[
+                      Flexible(child: Text(task['descp'], style: new TextStyle(fontSize: 20.0),softWrap: true,)),
+                      IconButton(icon:FaIcon(FontAwesomeIcons.trash),
+                      onPressed: () async{
+                        final FirebaseAuth _auth = FirebaseAuth.instance;
+                        final uid = (await _auth.currentUser()).uid;
+                       print('In progress');
+                       await DatabaseService(uid: uid).deleteTask(task['title']);
+                       print("Done");
+                      },),
+                    ],
+                  ),
                 ),
               )
             ],
