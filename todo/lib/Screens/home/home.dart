@@ -26,21 +26,23 @@ class _DefaultScreenState extends State<DefaultScreen> {
           backgroundColor: Colors.black54,
           title: Text("ToDo List",
           style: GoogleFonts.roboto(
-            color: Colors.cyanAccent[100],
+            color: Colors.white,
             fontSize: 34,
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.w400,
           ),),
           iconTheme: IconThemeData(
             color: Colors.black
           ),
           actions: [
-            IconButton(icon:Icon(Icons.power_settings_new,size:30,color: Colors.cyanAccent[100]), 
+            IconButton(icon:Icon(Icons.power_settings_new,size:30,color: Colors.white), 
+            tooltip: "Sign Out",
             onPressed: () async {
               await _auth.signOut();
               Navigator.of(context).popAndPushNamed('/login');
             }),
             IconButton(
-            icon: Icon(Icons.add,size: 40,color: Colors.cyanAccent[100],),
+            icon: Icon(Icons.add,size: 40,color: Colors.white,),
+            tooltip: "Add Task",
             onPressed: () {
               Navigator.popAndPushNamed(context, '/new_task');
             },
@@ -49,8 +51,8 @@ class _DefaultScreenState extends State<DefaultScreen> {
         ),
         floatingActionButton: FloatingActionButton(
           tooltip: "Clear All",
-          backgroundColor: Colors.cyanAccent[100],
-          child: Icon(Icons.clear_all,size: 30,color: Colors.black87,),
+          backgroundColor: Color(0xff101010),
+          child: Icon(Icons.clear_all,size: 35,color: Colors.white,),
           onPressed: () async {
             final uid = (await _auth.currentUser()).uid;
             await DatabaseService(uid: uid).deleteAllTasks();
@@ -85,6 +87,7 @@ class _DefaultScreenState extends State<DefaultScreen> {
  Widget buildTaskCard(BuildContext context, DocumentSnapshot task) {
     return new Container(
       child: Card(
+        color:  Color(int.parse(task['taskcolor'])),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
@@ -93,6 +96,7 @@ class _DefaultScreenState extends State<DefaultScreen> {
                 padding: const EdgeInsets.only(top: 8.0),
                 child: Row(children: <Widget>[
                   Text(task['title']==null? "N/A":task['title'], style: new TextStyle(fontSize: 28.0),),
+                  
                 ]),
               ),
              Padding(
@@ -101,18 +105,37 @@ class _DefaultScreenState extends State<DefaultScreen> {
                   child: Row(
                     children: <Widget>[
                       Flexible(child: Text(task['descp'], style: new TextStyle(fontSize: 20.0),softWrap: true,)),
-                      IconButton(icon:FaIcon(FontAwesomeIcons.trash),
-                      onPressed: () async{
-                        final FirebaseAuth _auth = FirebaseAuth.instance;
-                        final uid = (await _auth.currentUser()).uid;
-                       print('In progress');
-                       await DatabaseService(uid: uid).deleteTask(task['title']);
-                       print("Done");
-                      },),
                     ],
                   ),
                 ),
-              )
+               
+              ),
+             Column(
+               children: [
+                 Row(
+                   mainAxisAlignment: MainAxisAlignment.end,
+                   children: [
+                     Padding(
+                    padding:  EdgeInsets.only(left:MediaQuery.of(context).size.width * 0.05),
+                    child: IconButton(icon:FaIcon(FontAwesomeIcons.edit),
+                        onPressed: () {}
+                        ), 
+                  ),
+                  Padding(
+                    padding:EdgeInsets.only(left:MediaQuery.of(context).size.width * 0.01) ,
+                    child: IconButton(icon:FaIcon(FontAwesomeIcons.trash),
+                        onPressed: () async{
+                          final FirebaseAuth _auth = FirebaseAuth.instance;
+                          final uid = (await _auth.currentUser()).uid;
+                         print('In progress');
+                         await DatabaseService(uid: uid).deleteTask(task['title']);
+                         print("Done");
+                        },),
+                  )
+                   ],
+                 )
+               ],
+             )
             ],
           ),
         ),

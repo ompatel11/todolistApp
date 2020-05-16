@@ -26,9 +26,9 @@ class _SignInState extends State<SignIn> {
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(bottomLeft: Radius.circular(40),bottomRight: Radius.circular(40)),
-                  color: Colors.cyanAccent[400],
+                  color: Colors.white,
                 ),
-                height: MediaQuery.of(context).size.height * 0.45,
+                height: MediaQuery.of(context).size.height * 0.5,
                 
               ),
             ),
@@ -53,7 +53,7 @@ class _SignInState extends State<SignIn> {
                 Text(
                   'Sign In',
                   style: GoogleFonts.galada(
-                      color: Colors.cyanAccent,
+                      color: Colors.white,
                       fontSize: 40.0,
                       letterSpacing: 4.0,
                       fontWeight: FontWeight.w400),
@@ -70,12 +70,12 @@ class _SignInState extends State<SignIn> {
                             hintText: 'E-mail',
                             hintStyle: GoogleFonts.comfortaa(
                             fontSize: 15.0,
-                            color: Colors.cyanAccent[100],
+                            color: Colors.white,
                            letterSpacing: 4.0
                            ),
                   ),
                   style: TextStyle(
-                    fontSize: 20.0, color: Colors.cyanAccent[100]),
+                    fontSize: 20.0, color: Colors.white),
                   validator: (val) => val.isEmpty ? 'Enter an email' : null,
                   onChanged: (val) {
                     setState(() => email = val);
@@ -85,7 +85,7 @@ class _SignInState extends State<SignIn> {
                 
                 TextFormField(
                   style: TextStyle(
-                      fontSize: 20.0, color: Colors.cyanAccent[100]),
+                      fontSize: 20.0, color: Colors.white),
                   decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius:BorderRadius.all(Radius.circular(20.0))),
@@ -94,7 +94,7 @@ class _SignInState extends State<SignIn> {
                     hintText: 'Password',
                     hintStyle: GoogleFonts.comfortaa(
                         fontSize: 15.0,
-                        color: Colors.cyanAccent[100],
+                        color: Colors.white,
                         letterSpacing: 4.0),
                 ),
                   obscureText: true,
@@ -123,7 +123,7 @@ class _SignInState extends State<SignIn> {
                               width: 150.0,
                               height: 40.0,
                               decoration: BoxDecoration(
-                                color: Colors.cyanAccent[400],
+                                color: Colors.white,
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(30.0),
                                 ),
@@ -132,7 +132,7 @@ class _SignInState extends State<SignIn> {
                                 child: Text(
                                   'Sign In',
                                   style: GoogleFonts.galada(
-                                      fontSize: 27.0, color: Colors.black45),
+                                      fontSize: 27.0, color: Colors.black54),
                                 ),
                               ),
                             ),
@@ -148,7 +148,7 @@ class _SignInState extends State<SignIn> {
                     "Don't have an account?",
                     style: GoogleFonts.roboto(
                       fontSize: 20,
-                      color: Colors.cyanAccent
+                      color: Colors.white
                     ),
                   ),
                 )

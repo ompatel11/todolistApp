@@ -16,6 +16,7 @@ class _Add_taskState extends State<Add_task> {
   TimeOfDay picked;
   String title;
   String descp;
+  String taskcolor= "0XFF76F1FF";
   final snackBar =  SnackBar(content: Text("Cannot leave title empty."));
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
@@ -42,7 +43,7 @@ class _Add_taskState extends State<Add_task> {
         leading: IconButton(
                       icon: FaIcon(FontAwesomeIcons.chevronLeft,
                       size: 35,
-                      color: Colors.cyanAccent[100]
+                      color: Colors.white
                    ),
                    onPressed: (){
                      Navigator.popAndPushNamed(context, '/home');
@@ -53,12 +54,12 @@ class _Add_taskState extends State<Add_task> {
             style: GoogleFonts.roboto(
               fontSize: 24,
               fontWeight: FontWeight.normal,
-              color: Colors.cyanAccent[100]
+              color: Colors.white
             ),),
         actions: [
           IconButton(
             icon: FaIcon(timer?  FontAwesomeIcons.bell:FontAwesomeIcons.bellSlash),
-            color: timer?Colors.cyanAccent[100]: Colors.white,
+            color: Colors.white,
             onPressed: () {
               setState(() {
                 if (timer== false){
@@ -76,13 +77,13 @@ class _Add_taskState extends State<Add_task> {
           IconButton(
                 icon: FaIcon(FontAwesomeIcons.check,
                       size: 30,
-                      color: Colors.cyanAccent[100]
+                      color: Colors.white
                    ),
                    onPressed: () async{
                      final uid = (await _auth.currentUser()).uid;
                      print('In progress');
                      if(title!=null){
-                       await DatabaseService(uid: uid).addTask(title, picked.toString(), descp);
+                       await DatabaseService(uid: uid).addTask(title, picked.toString(), descp, taskcolor);
                        Navigator.of(context).popAndPushNamed('/home');
                        print("Done");
                      }
@@ -108,15 +109,28 @@ class _Add_taskState extends State<Add_task> {
             child: Column(  
             crossAxisAlignment: CrossAxisAlignment.start,  
             children: <Widget>[  
-              TextFormField(  
+              TextFormField( 
+                cursorColor: Colors.white, 
                 maxLength: 16,
                 onChanged: (val) {
                       setState(() => title = val);
                     },
                 validator: (val) => val.isEmpty ? 'Cannot leave this empty' : null,
                   decoration: const InputDecoration(  
+                    fillColor: Colors.white,
                     hintText: 'Task',  
                     labelText: 'Title',  
+                    labelStyle: TextStyle(color: Colors.white),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.white
+                      )
+                    ),
+                    border: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.white
+                      )
+                    )
                   ),  
               ),  
               SizedBox(
@@ -133,7 +147,18 @@ class _Add_taskState extends State<Add_task> {
                 validator: (val) => val.isEmpty ? 'Cannot leave this empty' : null,
                   decoration: const InputDecoration(  
                     hintText: 'Task',  
-                    labelText: 'Description',  
+                    labelText: 'Description', 
+                    labelStyle: TextStyle(color: Colors.white),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.white
+                      )
+                    ),
+                    border: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.white
+                      )
+                    ) 
                   ),  
               ), 
               

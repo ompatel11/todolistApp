@@ -28,9 +28,9 @@ class _RegisterState extends State<Register> {
             child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(bottomLeft: Radius.circular(40),bottomRight: Radius.circular(40)),
-                  color: Colors.cyanAccent[400],
+                  color: Colors.white,
                 ),
-                height: MediaQuery.of(context).size.height * 0.45,
+                height: MediaQuery.of(context).size.height * 0.5,
                 
               ),
             ),
@@ -39,7 +39,7 @@ class _RegisterState extends State<Register> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Container(
-                height: MediaQuery.of(context).size.height * 0.6,
+                height: MediaQuery.of(context).size.height * 0.65,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(30)),
                     color: Color(0xff202020),
@@ -53,7 +53,7 @@ class _RegisterState extends State<Register> {
               Text(
                   'Register',
                   style: GoogleFonts.galada(
-                      color: Colors.cyanAccent,
+                      color: Colors.white,
                       fontSize: 40.0,
                       letterSpacing: 4.0,
                       fontWeight: FontWeight.w400),
@@ -63,29 +63,35 @@ class _RegisterState extends State<Register> {
                   ),
               TextFormField(
                   style: TextStyle(
-                  fontSize: 20.0, color: Colors.cyanAccent[100]),
+                  fontSize: 20.0, color: Colors.white),
                   validator: (val) => val.isEmpty ? 'Enter an email' : null,
                   onChanged: (val){
                     setState(()=> password= val);
                   },
                   decoration: InputDecoration(
+                    
                       border: OutlineInputBorder(
+                          borderSide: BorderSide(
+                          color: Colors.white
+                          ),
                           borderRadius:BorderRadius.all(Radius.circular(20.0))),
                           fillColor: Colors.black45,
                           filled: true,
                           hintText: 'E-mail',
                           hintStyle: GoogleFonts.comfortaa(
                           fontSize: 15.0,
-                          color: Colors.cyanAccent[100],
-                         letterSpacing: 4.0
+                          color: Colors.white,
+                          letterSpacing: 4.0
                          ),
-              )
+                    ),
+                      
               ),
+            
               SizedBox(height: 30.0),
               TextFormField(
                   obscureText: true,
                   style: TextStyle(
-                    fontSize: 20.0, color: Colors.cyanAccent[100]),
+                    fontSize: 20.0, color: Colors.white),
                   onChanged: (val) {
                       setState(() => password = val);
                                   },
@@ -98,7 +104,7 @@ class _RegisterState extends State<Register> {
                   hintText: 'Password',
                   hintStyle: GoogleFonts.comfortaa(
                       fontSize: 15.0,
-                      color: Colors.cyanAccent[100],
+                      color: Colors.white,
                       letterSpacing: 4.0),
               )),
               SizedBox(height: 30.0),
@@ -119,7 +125,7 @@ class _RegisterState extends State<Register> {
                               width: 150.0,
                               height: 40.0,
                               decoration: BoxDecoration(
-                                color: Colors.cyanAccent[400],
+                                color: Colors.white,
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(30.0),
                                 ),
@@ -143,7 +149,7 @@ class _RegisterState extends State<Register> {
                     "Already have an account?",
                     style: GoogleFonts.roboto(
                       fontSize: 20,
-                      color: Colors.cyanAccent
+                      color: Colors.white
                     ),
                   ),
                 )
