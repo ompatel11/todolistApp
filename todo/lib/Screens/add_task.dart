@@ -22,15 +22,15 @@ class _Add_taskState extends State<Add_task> {
   Future<Null> selectTime(BuildContext context) async{
     picked = await showTimePicker(
       context: context,
-      initialTime: _time
+      initialTime: TimeOfDay.now()
       );
       setState(() {
         _time = picked;
         print(_time);
-        // if (_time == null){
-        //   timer=false;
+        if (_time == null){
+          timer=false;
           
-        // }
+        }
       });
   }
 

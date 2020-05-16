@@ -56,16 +56,21 @@ class _DefaultScreenState extends State<DefaultScreen> {
           child: StreamBuilder(
             stream: getUserTasks(context),
             builder: (context, snapshot){
-              if(!snapshot.hasData){
-                return Center(child: Text("No Tasks Found"),);
+              if(snapshot.connectionState==ConnectionState.waiting){
+                return Center(child: Loading());
               }
-              return ListView.builder(
+              else if(!snapshot.hasData){
+                return Center(child: Text("No tasks here"));
+              }
+              else{
+                return ListView.builder(
                 itemCount: snapshot.data.documents.length,
                 itemBuilder: (BuildContext context,index) =>
                    buildTaskCard(context, snapshot.data.documents[index])
               );
-              
+              }
             },
+            
           )
         )
       );
