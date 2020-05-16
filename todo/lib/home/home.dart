@@ -84,15 +84,15 @@ class _DefaultScreenState extends State<DefaultScreen> {
               Padding(
                 padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
                 child: Row(children: <Widget>[
-                  Text(task['title']==null? "N/A":task['title'], style: new TextStyle(fontSize: 30.0),),
+                  Text(task['title']==null? "N/A":task['title'], style: new TextStyle(fontSize: 28.0),),
                   Spacer(),
                 ]),
               ),
              Padding(
-                padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                padding: const EdgeInsets.only(top: 8.0),
                 child: Row(
                   children: <Widget>[
-                    Text(task['time'].toString()==null? " ":task['time'], style: new TextStyle(fontSize: 35.0),),
+                    Text(task['time'].toString()==null? " ":task['descp'], style: new TextStyle(fontSize: 20.0),),
                     Spacer(),
                     IconButton(icon:FaIcon(FontAwesomeIcons.trash),
                     onPressed: () async{

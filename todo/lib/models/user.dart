@@ -1,5 +1,6 @@
 class User{
   final String uid;
   final String time;
-  User({this.uid, this.time });
+  final String descp;
+  User({this.uid, this.time, this.descp});
 }
