@@ -29,7 +29,6 @@ class _Add_taskState extends State<Add_task> {
         print(_time);
         if (_time == null){
           timer=false;
-          
         }
       });
   }
@@ -88,7 +87,7 @@ class _Add_taskState extends State<Add_task> {
                        print("Done");
                      }
                      else{
-                       return _scaffoldKey.currentState.showSnackBar(snackBar);
+                        _scaffoldKey.currentState.showSnackBar(snackBar);
                       //  return Scaffold.of(context).showSnackBar(snackBar);
                        
                      }

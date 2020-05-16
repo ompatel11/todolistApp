@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:todo/Screens/contants/loading.dart';
-import 'package:todo/services/auth.dart';
 import 'package:todo/services/database.dart';
 
 class DefaultScreen extends StatefulWidget {
@@ -51,7 +50,10 @@ class _DefaultScreenState extends State<DefaultScreen> {
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.cyanAccent[100],
           child: Icon(Icons.clear_all,size: 30,color: Colors.black87,),
-          onPressed: null),
+          onPressed: () async {
+            final uid = (await _auth.currentUser()).uid;
+            await DatabaseService(uid: uid).deleteAllTasks();
+          }),
         body: Container(
           child: StreamBuilder(
             stream: getUserTasks(context),
