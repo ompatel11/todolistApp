@@ -127,7 +127,7 @@ class _RegisterState extends State<Register> {
                               child: Center(
                                 child: Text(
                                   'Register',
-                                  style: GoogleFonts.roboto(
+                                  style: GoogleFonts.galada(
                                       fontSize: 27.0, color: Colors.black45),
                                 ),
                               ),

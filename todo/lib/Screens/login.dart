@@ -131,7 +131,7 @@ class _SignInState extends State<SignIn> {
                               child: Center(
                                 child: Text(
                                   'Sign In',
-                                  style: GoogleFonts.roboto(
+                                  style: GoogleFonts.galada(
                                       fontSize: 27.0, color: Colors.black45),
                                 ),
                               ),
