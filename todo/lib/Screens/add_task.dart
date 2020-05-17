@@ -16,7 +16,7 @@ class _Add_taskState extends State<Add_task> {
   TimeOfDay picked;
   String title;
   String descp;
-  String taskcolor="0xff303030";
+  String taskcolor="0xff505050";
   final snackBar =  SnackBar(content: Text("Cannot leave title empty."));
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
@@ -57,7 +57,7 @@ class _Add_taskState extends State<Add_task> {
               color: Colors.white
             ),),
         actions: [
-          IconButton(icon: FaIcon(FontAwesomeIcons.palette),color: Colors.white, 
+          IconButton(icon: FaIcon(FontAwesomeIcons.palette),color: Color(int.parse(taskcolor)), 
            onPressed: () async {  
                 final BackColor colorName = await _asyncSimpleDialog(context);  
                 print("Selected BackColor is $colorName");

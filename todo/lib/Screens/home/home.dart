@@ -85,8 +85,11 @@ class _DefaultScreenState extends State<DefaultScreen> {
 
 
  Widget buildTaskCard(BuildContext context, DocumentSnapshot task) {
-    return new Container(
+    return  Container(
       child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
         color: task['taskcolor']==null?Colors.blueAccent: Color(int.parse(task['taskcolor'])),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -96,7 +99,6 @@ class _DefaultScreenState extends State<DefaultScreen> {
                 padding: const EdgeInsets.only(top: 8.0),
                 child: Row(children: <Widget>[
                   Text(task['title']==null? "N/A":task['title'], style: new TextStyle(fontSize: 28.0),),
-                  
                 ]),
               ),
              Padding(
