@@ -86,6 +86,7 @@ class _DefaultScreenState extends State<DefaultScreen> {
 
  Widget buildTaskCard(BuildContext context, DocumentSnapshot task) {
    String taskcolor="0xff505050";
+   final FirebaseAuth _auth = FirebaseAuth.instance;
     return  Container(
       child: Card(
         shape: RoundedRectangleBorder(
@@ -127,13 +128,13 @@ class _DefaultScreenState extends State<DefaultScreen> {
                             text: task['title'],));
                           final _descp = TextEditingController.fromValue(TextEditingValue(
                             text: task['descp'],));
-                          showDialog(context: context,barrierDismissible: false,builder: (BuildContext context) => 
+                          showDialog(context: context,builder: (BuildContext context) => 
                            Dialog(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15.0),
                             ),
                             child: Container(
-                              height: MediaQuery.of(context).size.height * 0.65,
+                              height: MediaQuery.of(context).size.height * 0.55,
                               width:  MediaQuery.of(context).size.width * 1,
                               child: SingleChildScrollView (
                                   child: Column(
@@ -143,65 +144,103 @@ class _DefaultScreenState extends State<DefaultScreen> {
                                     child: Column(children: [
                                       Padding(
                                         padding: const EdgeInsets.only(top:15.0),
-                                        child: Text("Edit Task",
-                                        style: GoogleFonts.comfortaa(
-                                          fontSize: 32,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w400,
+                                        child: Row(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(left:8.0),
+                                              child: Text("Edit Task",
+                                              style: GoogleFonts.comfortaa(
+                                                fontSize: 32,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w400,
 
-                                        )),
+                                              )),
+                                            ),
+                                            Padding(
+                                      padding:  EdgeInsets.only(top:0),
+                                      child: Expanded(
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            SizedBox(
+                                              width: 40,
+                                            ),
+                                            IconButton(icon: Icon(Icons.close),),
+                                            SizedBox(
+                                              width: 20,
+                                            ),
+                                            IconButton(icon: Icon(Icons.done),
+                                            onPressed: () async{
+                                              try{
+                                              if(_title!=null){
+                                                print("In progress");
+                                                await DatabaseService(uid: (await _auth.currentUser()).uid).updateTask(_title.text.toString(),_descp.text.toString(), taskcolor );
+                                                Navigator.of(context).pop();
+                                                print("Done");
+                                              }
+                                              }catch(e){
+                                                print(e.toString());
+                                              }
+                                            },)
+                                            
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                          ],
+                                        ),
                                       ),
                                       SizedBox(
                                           height: 5.0,
                                         ),
-                                      TextFormField(
-                                        controller: _title,
-                                          decoration: InputDecoration(
-                                                border: OutlineInputBorder(
-                                                    borderRadius:BorderRadius.all(Radius.circular(20.0))),
-                                                    fillColor: Colors.black45,
-                                                    filled: true,
-                                                    hintStyle: GoogleFonts.comfortaa(
-                                                    fontSize: 15.0,
-                                                    color: Colors.white,
-                                                  letterSpacing: 4.0
-                                                  ),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal:8.0),
+                                        child: TextFormField(
+                                          readOnly: true,
+                                          controller: _title,
+                                            decoration: InputDecoration(
+                                                  hintStyle: GoogleFonts.comfortaa(
+                                                      fontSize: 15.0,
+                                                      color: Colors.white,
+                                                    letterSpacing: 4.0
+                                                    ),
+                                            ),
+                                            style: TextStyle(
+                                              fontSize: 20.0, color: Colors.white),
+                                            validator: (val) => val.isEmpty ? 'Enter an email' : null,
+                                            onChanged: (val) {
+                                              print(_title);
+                                            },
                                           ),
-                                          style: TextStyle(
-                                            fontSize: 20.0, color: Colors.white),
-                                          validator: (val) => val.isEmpty ? 'Enter an email' : null,
-                                          onChanged: (val) {
-                                            print(_title);
-                                          },
-                                        ),
+                                      ),
                                         SizedBox(
                                           height: 10.0,
                                         ),
-                                        TextFormField(
-                                        controller: _descp,
-                                        maxLength: 200,
-                                        minLines: 1,
-                                        maxLines: 7,
-                                          decoration: InputDecoration(
-                                                border: OutlineInputBorder(
-                                                    borderRadius:BorderRadius.all(Radius.circular(20.0))),
-                                                    fillColor: Colors.black45,
-                                                    filled: true,
-                                                    hintStyle: GoogleFonts.comfortaa(
-                                                    fontSize: 15.0,
-                                                    color: Colors.white,
-                                                  letterSpacing: 4.0
-                                                  ),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal:8.0),
+                                          child: TextFormField(
+                                          controller: _descp,
+                                          maxLength: 200,
+                                          minLines: 1,
+                                          maxLines: 12,
+                                            decoration: InputDecoration(
+                                                  hintStyle: GoogleFonts.comfortaa(
+                                                      fontSize: 15.0,
+                                                      color: Colors.white,
+                                                    letterSpacing: 4.0
+                                                    ),
+                                            ),
+                                            style: TextStyle(
+                                              fontSize: 20.0, color: Colors.white),
+                                            validator: (val) => val.isEmpty ? 'Cannot leave this field empty' : null,
+                                            onChanged: (val) {
+                                              print(_descp);
+                                            },
                                           ),
-                                          style: TextStyle(
-                                            fontSize: 20.0, color: Colors.white),
-                                          validator: (val) => val.isEmpty ? 'Cannot leave this field empty' : null,
-                                          onChanged: (val) {
-                                            print(_descp);
-                                          },
                                         ),
                                         IconButton(icon: FaIcon(FontAwesomeIcons.palette),color: Color(int.parse(taskcolor)), 
-                                onPressed: () async {  
+                                        onPressed: () async {  
                                       final BackColor colorName = await _asyncSimpleDialog(context);  
                                       print("Selected BackColor is $colorName");
                                       if (colorName== BackColor.D3D3D3){
@@ -218,43 +257,8 @@ class _DefaultScreenState extends State<DefaultScreen> {
                                       }
                                       }, ),
                                   ],)),
-                                  SizedBox(
-                                    height: 60,
-                                  ),
-                                    Padding(
-                                      padding:  EdgeInsets.only(top:0),
-                                      child: Expanded(
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            RaisedButton(
-                                              color: Colors.blue,
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                              child: Text(
-                                                'Okay',
-                                                style: TextStyle(fontSize: 18.0, color: Colors.white),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: 20,
-                                            ),
-                                            RaisedButton(
-                                              color: Colors.red,
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                              child: Text(
-                                                'Cancel!',
-                                                style: TextStyle(fontSize: 18.0, color: Colors.white),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    ),
+                                  
+                                    
                                   ],
                                 ),
                               ),

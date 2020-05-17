@@ -32,4 +32,14 @@ class DatabaseService {
   };
 });
   }
+
+  Future updateTask(String title, String descp, String taskcolor) async{
+    Map<String, String> data = <String, String>{
+      'title': title,
+      'descp': descp,
+      'taskcolor': taskcolor
+  };
+    return await Firestore.instance.collection("users").document(uid).collection("tasks").document(title).updateData(data);
+  }
+
 }
