@@ -13,7 +13,7 @@ class DefaultScreen extends StatefulWidget {
 
 class _DefaultScreenState extends State<DefaultScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  
+
   Stream<QuerySnapshot> getUserTasks(BuildContext context) async*{
     final uid = (await FirebaseAuth.instance.currentUser()).uid;
     yield* Firestore.instance.collection("users").document(uid).collection("tasks").snapshots();
@@ -120,7 +120,105 @@ class _DefaultScreenState extends State<DefaultScreen> {
                      Padding(
                     padding:  EdgeInsets.only(left:MediaQuery.of(context).size.width * 0.05),
                     child: IconButton(icon:FaIcon(FontAwesomeIcons.edit),
-                        onPressed: () {}
+                        onPressed: () {
+                          final _formKey = GlobalKey<FormState>();
+                          final _title = TextEditingController.fromValue(TextEditingValue(
+                            text: task['title'],));
+                          final _descp = TextEditingController.fromValue(TextEditingValue(
+                            text: task['descp'],));
+                          showDialog(context: context,builder: (BuildContext context) => 
+                           Dialog(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12.0),
+                            ),
+                            child: Container(
+                              height: 300.0,
+                              width: 300.0,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                Form(
+                                  key: _formKey,
+                                  child: Column(children: [
+                                    TextFormField(
+                                      controller: _title,
+                                        decoration: InputDecoration(
+                                              border: OutlineInputBorder(
+                                                  borderRadius:BorderRadius.all(Radius.circular(20.0))),
+                                                  fillColor: Colors.black45,
+                                                  filled: true,
+                                                  hintStyle: GoogleFonts.comfortaa(
+                                                  fontSize: 15.0,
+                                                  color: Colors.white,
+                                                letterSpacing: 4.0
+                                                ),
+                                        ),
+                                        style: TextStyle(
+                                          fontSize: 20.0, color: Colors.white),
+                                        validator: (val) => val.isEmpty ? 'Enter an email' : null,
+                                        onChanged: (val) {
+                                          print(_title);
+                                        },
+                                      ),
+                                      TextFormField(
+                                      controller: _descp,
+                                        decoration: InputDecoration(
+                                              border: OutlineInputBorder(
+                                                  borderRadius:BorderRadius.all(Radius.circular(20.0))),
+                                                  fillColor: Colors.black45,
+                                                  filled: true,
+                                                  hintStyle: GoogleFonts.comfortaa(
+                                                  fontSize: 15.0,
+                                                  color: Colors.white,
+                                                letterSpacing: 4.0
+                                                ),
+                                        ),
+                                        style: TextStyle(
+                                          fontSize: 20.0, color: Colors.white),
+                                        validator: (val) => val.isEmpty ? 'Enter an email' : null,
+                                        onChanged: (val) {
+                                          print(_descp);
+                                        },
+                                      ),
+                                ],)),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10, right: 10, top: 50),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      children: <Widget>[
+                                        RaisedButton(
+                                          color: Colors.blue,
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: Text(
+                                            'Okay',
+                                            style: TextStyle(fontSize: 18.0, color: Colors.white),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        RaisedButton(
+                                          color: Colors.red,
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: Text(
+                                            'Cancel!',
+                                            style: TextStyle(fontSize: 18.0, color: Colors.white),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ));
+                          
+                        }
                         ), 
                   ),
                   Padding(
