@@ -13,7 +13,6 @@ class DefaultScreen extends StatefulWidget {
 
 class _DefaultScreenState extends State<DefaultScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
   Stream<QuerySnapshot> getUserTasks(BuildContext context) async*{
     final uid = (await FirebaseAuth.instance.currentUser()).uid;
     yield* Firestore.instance.collection("users").document(uid).collection("tasks").snapshots();
@@ -22,10 +21,11 @@ class _DefaultScreenState extends State<DefaultScreen> {
   Widget build(BuildContext context) {
     
     return Scaffold(
+      resizeToAvoidBottomInset: false,
         appBar: AppBar(
           backgroundColor: Colors.black54,
           title: Text("ToDo List",
-          style: GoogleFonts.roboto(
+          style: GoogleFonts.comfortaa(
             color: Colors.white,
             fontSize: 34,
             fontWeight: FontWeight.w400,
@@ -85,6 +85,7 @@ class _DefaultScreenState extends State<DefaultScreen> {
 
 
  Widget buildTaskCard(BuildContext context, DocumentSnapshot task) {
+   String taskcolor="0xff505050";
     return  Container(
       child: Card(
         shape: RoundedRectangleBorder(
@@ -126,94 +127,136 @@ class _DefaultScreenState extends State<DefaultScreen> {
                             text: task['title'],));
                           final _descp = TextEditingController.fromValue(TextEditingValue(
                             text: task['descp'],));
-                          showDialog(context: context,builder: (BuildContext context) => 
+                          showDialog(context: context,barrierDismissible: false,builder: (BuildContext context) => 
                            Dialog(
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.0),
+                              borderRadius: BorderRadius.circular(15.0),
                             ),
                             child: Container(
-                              height: 300.0,
-                              width: 300.0,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                Form(
-                                  key: _formKey,
-                                  child: Column(children: [
-                                    TextFormField(
-                                      controller: _title,
-                                        decoration: InputDecoration(
-                                              border: OutlineInputBorder(
-                                                  borderRadius:BorderRadius.all(Radius.circular(20.0))),
-                                                  fillColor: Colors.black45,
-                                                  filled: true,
-                                                  hintStyle: GoogleFonts.comfortaa(
-                                                  fontSize: 15.0,
-                                                  color: Colors.white,
-                                                letterSpacing: 4.0
-                                                ),
-                                        ),
-                                        style: TextStyle(
-                                          fontSize: 20.0, color: Colors.white),
-                                        validator: (val) => val.isEmpty ? 'Enter an email' : null,
-                                        onChanged: (val) {
-                                          print(_title);
-                                        },
+                              height: MediaQuery.of(context).size.height * 0.65,
+                              width:  MediaQuery.of(context).size.width * 1,
+                              child: SingleChildScrollView (
+                                  child: Column(
+                                  children: <Widget>[
+                                  Form(
+                                    key: _formKey,
+                                    child: Column(children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(top:15.0),
+                                        child: Text("Edit Task",
+                                        style: GoogleFonts.comfortaa(
+                                          fontSize: 32,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w400,
+
+                                        )),
                                       ),
+                                      SizedBox(
+                                          height: 5.0,
+                                        ),
                                       TextFormField(
-                                      controller: _descp,
-                                        decoration: InputDecoration(
-                                              border: OutlineInputBorder(
-                                                  borderRadius:BorderRadius.all(Radius.circular(20.0))),
-                                                  fillColor: Colors.black45,
-                                                  filled: true,
-                                                  hintStyle: GoogleFonts.comfortaa(
-                                                  fontSize: 15.0,
-                                                  color: Colors.white,
-                                                letterSpacing: 4.0
-                                                ),
-                                        ),
-                                        style: TextStyle(
-                                          fontSize: 20.0, color: Colors.white),
-                                        validator: (val) => val.isEmpty ? 'Enter an email' : null,
-                                        onChanged: (val) {
-                                          print(_descp);
-                                        },
-                                      ),
-                                ],)),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 10, right: 10, top: 50),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.end,
-                                      children: <Widget>[
-                                        RaisedButton(
-                                          color: Colors.blue,
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                          child: Text(
-                                            'Okay',
-                                            style: TextStyle(fontSize: 18.0, color: Colors.white),
+                                        controller: _title,
+                                          decoration: InputDecoration(
+                                                border: OutlineInputBorder(
+                                                    borderRadius:BorderRadius.all(Radius.circular(20.0))),
+                                                    fillColor: Colors.black45,
+                                                    filled: true,
+                                                    hintStyle: GoogleFonts.comfortaa(
+                                                    fontSize: 15.0,
+                                                    color: Colors.white,
+                                                  letterSpacing: 4.0
+                                                  ),
                                           ),
+                                          style: TextStyle(
+                                            fontSize: 20.0, color: Colors.white),
+                                          validator: (val) => val.isEmpty ? 'Enter an email' : null,
+                                          onChanged: (val) {
+                                            print(_title);
+                                          },
                                         ),
                                         SizedBox(
-                                          width: 20,
+                                          height: 10.0,
                                         ),
-                                        RaisedButton(
-                                          color: Colors.red,
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                          child: Text(
-                                            'Cancel!',
-                                            style: TextStyle(fontSize: 18.0, color: Colors.white),
+                                        TextFormField(
+                                        controller: _descp,
+                                        maxLength: 200,
+                                        minLines: 1,
+                                        maxLines: 7,
+                                          decoration: InputDecoration(
+                                                border: OutlineInputBorder(
+                                                    borderRadius:BorderRadius.all(Radius.circular(20.0))),
+                                                    fillColor: Colors.black45,
+                                                    filled: true,
+                                                    hintStyle: GoogleFonts.comfortaa(
+                                                    fontSize: 15.0,
+                                                    color: Colors.white,
+                                                  letterSpacing: 4.0
+                                                  ),
                                           ),
-                                        )
-                                      ],
-                                    ),
+                                          style: TextStyle(
+                                            fontSize: 20.0, color: Colors.white),
+                                          validator: (val) => val.isEmpty ? 'Cannot leave this field empty' : null,
+                                          onChanged: (val) {
+                                            print(_descp);
+                                          },
+                                        ),
+                                        IconButton(icon: FaIcon(FontAwesomeIcons.palette),color: Color(int.parse(taskcolor)), 
+                                onPressed: () async {  
+                                      final BackColor colorName = await _asyncSimpleDialog(context);  
+                                      print("Selected BackColor is $colorName");
+                                      if (colorName== BackColor.D3D3D3){
+                                        taskcolor = "0xffD3D3D3";
+                                      }
+                                      else if (colorName== BackColor.E97451){
+                                        taskcolor = "0xffE97451";
+                                      }
+                                      else if (colorName == BackColor.ED76FF){
+                                        taskcolor = "0xffED76FF";
+                                      }
+                                      else{
+                                        taskcolor = "0xffFFF176";
+                                      }
+                                      }, ),
+                                  ],)),
+                                  SizedBox(
+                                    height: 60,
                                   ),
-                                ],
+                                    Padding(
+                                      padding:  EdgeInsets.only(top:0),
+                                      child: Expanded(
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            RaisedButton(
+                                              color: Colors.blue,
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: Text(
+                                                'Okay',
+                                                style: TextStyle(fontSize: 18.0, color: Colors.white),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 20,
+                                            ),
+                                            RaisedButton(
+                                              color: Colors.red,
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: Text(
+                                                'Cancel!',
+                                                style: TextStyle(fontSize: 18.0, color: Colors.white),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ));
@@ -242,3 +285,85 @@ class _DefaultScreenState extends State<DefaultScreen> {
       ),
     );
   }
+
+
+
+enum BackColor { D3D3D3 , ED76FF, FFF176, E97451 }  
+  
+Future<BackColor> _asyncSimpleDialog(BuildContext context) async {  
+  return await showDialog<BackColor>(  
+      context: context,  
+      barrierDismissible: true,  
+      builder: (BuildContext context) {  
+        return SimpleDialog(  
+          title: const Text('Select Color '),  
+          children: <Widget>[  
+            SimpleDialogOption(  
+              onPressed: () {  
+                Navigator.pop(context, BackColor.D3D3D3);  
+              },  
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('D3D3D3'),
+                  Container(
+                    width: 35,
+                    height: 15,
+                    color: Colors.grey[350],
+                  )
+                ],
+              ),  
+            ), 
+            SimpleDialogOption(  
+              onPressed: () {  
+                Navigator.pop(context, BackColor.FFF176);  
+              },  
+              child:  Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Yellow'),
+                  Container(
+                    width: 35,
+                    height: 15,
+                    color: Colors.yellow[400],
+                  )
+                ],
+              ),  
+            ), 
+             
+            SimpleDialogOption(  
+              onPressed: () {  
+                Navigator.pop(context, BackColor.ED76FF);  
+              },  
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Purple'),
+                  Container(
+                    width: 35,
+                    height: 15,
+                    color: Color(0xffED76FF),
+                  )
+                ],
+              ),  
+            ), 
+            SimpleDialogOption(  
+              onPressed: () {  
+                Navigator.pop(context, BackColor.E97451);  
+              },  
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Red'),
+                  Container(
+                    height: 15,
+                    width: 35,
+                    color: Color(0xffE97451),
+                  )
+                ],
+              ),  
+            ), 
+          ],  
+        );  
+      });  
+}
